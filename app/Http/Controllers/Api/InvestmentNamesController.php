@@ -4,22 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
-use App\Services\ClientService;
+use App\Services\InvestmentService;
 use Illuminate\Http\Request;
 
-class ClientsController extends Controller
+class InvestmentNamesController extends Controller
 {
-
     /**
-     * a client service instance
+     * an investment service instance
      *
-     * @var ClientService $clientService
+     * @var InvestmentService $investmentService
      */
-    private $clientService;
+    private $investmentService;
 
-    public function __construct(ClientService $cs)
+    public function __construct(InvestmentService $is)
     {
-        $this->clientService = $cs;
+        $this->investmentService = $is;
     }
 
     /**
@@ -29,7 +28,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        return $this->clientService->index();
+        //
     }
 
     /**
@@ -59,9 +58,9 @@ class ClientsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Client $investment_name)
     {
-        //
+        return $this->investmentService->show($investment_name);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Client extends Model
 {
@@ -43,4 +45,24 @@ class Client extends Model
     protected $guarded = [
 
     ];
+
+    /**
+     * a clients investments
+     *
+     * @return HasMany
+     */
+    public function investments() : HasMany
+    {
+        return $this->hasMany(Investment::class);
+    }
+
+    /**
+     * a clients funds
+     *
+     * @return HasManyThrough
+     */
+    public function funds() : HasManyThrough
+    {
+        return $this->hasManyThrough(Fund::class, Investment::class);
+    }
 }

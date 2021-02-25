@@ -1,6 +1,6 @@
 <template>
     <div id='dashboard-main-div'>
-        <div id="cash-flow-update-wrapper" v-show="cashflowadding">
+        <div id="cash-flow-update-wrapper" v-show="cashflowadding && !showDetails">
             <h2>Cash Flow Update</h2>
             <cashflow>
             </cashflow>
@@ -20,15 +20,18 @@
             <div
                 v-for="item in clients"
                 :value="item.name"
-                :key="item.name"
+                :key="item.id"
                 id="clients-wrapper"
             >
                 <Client
                     :client="item"
+                    @clientdetails="handleShowClientDetails"
+                    @cancelclientdetails="handleCancelClientDetails"
+                    v-show="!showDetails || showDetails && selectedClient === item.id"
                 >
                 </Client>
             </div>
-            <div>
+            <div v-show="!showDetails">
                 <Button
                     :classes="buttonClass"
                     type="viewswitch"
@@ -45,6 +48,7 @@
     import Button from './Button.vue';
     import cashflow from './CashFlowUpdate';
     import Client from './Client';
+    import lib from '../library';
     export default {
         components: {
             cashflow,
@@ -58,25 +62,33 @@
                 testValues: ['here', 'we'],
                 clients: [],
                 cashflowadding: false,
-                buttonClass: 'switch-button'
+                buttonClass: 'switch-button',
+                showDetails: false,
+                selectedClient: ''
             }
         },
         methods: {
-            fetchClients () {
-                axios.get('/api/clients')
-                    .then(response => {
-                        this.clients = response.data
-                    })
-                    .catch(error => {
-                        console.log('fetching clients error')
-                    });
-            },
             handleSwitch () {
                 this.cashflowadding = !this.cashflowadding;
+            },
+
+            handleShowClientDetails (client) {
+                this.showDetails = true;
+                this.selectedClient = client
+            },
+
+            handleCancelClientDetails (client) {
+                console.log('cencel');
+                this.showDetails = false;
+                this.selectedClient = ''
             }
         },
         mounted() {
-            this.fetchClients();
+            lib.func.fetchClients()
+                .then(response => {
+                    this.clients = response.clients;
+                    }
+                )
         }
     }
 </script>

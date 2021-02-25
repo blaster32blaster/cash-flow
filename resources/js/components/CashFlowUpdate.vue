@@ -3,21 +3,31 @@
         <h2>this is the main page</h2>
         <div class="flex-row">
             <selectbox
+                :disable="false"
                 id="client-name-dropdown"
                 placeholder="Client Name"
-                :values=testValues
+                :values=clients
+                arraykey="name"
+                statekey="client"
+                @clientselected="clientUpdated"
             >
             </selectbox>
             <selectbox
+                :disable="disableSecondary"
                 id="investment-type-dropdown"
                 placeholder="Investment Type"
                 :values=testValues
+                arraykey="name"
+                statekey="investmenttype"
             >
             </selectbox>
             <selectbox
+                :disable="disableSecondary"
                 id="client-name-dropdown"
                 placeholder="Investment Name"
                 :values=testValues
+                arraykey="name"
+                statekey="investmentname"
             >
             </selectbox>
         </div>
@@ -112,6 +122,7 @@
 <script>
     import selectbox from './Selectbox';
     import Button from './Button';
+    import lib from '../library';
     export default {
         components: {
             selectbox,
@@ -124,12 +135,68 @@
                 submitClass: 'submit-button',
                 cancelClass: 'cancel-button',
                 calculateClass: 'calculate-button',
-                testValues: ['here', 'we']
+                testValues: ['here', 'we'],
+                clients: [],
+                investmentTypes: [],
+                investmentNames: [],
+                disableSecondary: true,
             }
         },
         methods: {
+            clientUpdated () {
+                let client = this.$store.state.state.client
+                if (client && Object.keys(client).length === 0 && client.constructor === Object) {
+                    this.disableSecondary = true;
+                }
+                this.disableSecondary = false;
+                this.updateSecondaryData();
+            },
+            updateSecondaryData () {
+                lib.func.fetchInvestmentTypes(this.$store.state.state.client.id)
+                .then(response => {
+                    // console.log('here are the things')
+                    // console.log(Array.keys(response.clients.name))
+                    // console.log(Object.keys(response.clients.name))
+                    this.investmentTypes = response.investmentTypes;
+                    }
+                )
+
+                lib.func.fetchInvestmentNames(this.$store.state.state.client.id)
+                .then(response => {
+                    // console.log('here are the things')
+                    // console.log(Array.keys(response.clients.name))
+                    // console.log(Object.keys(response.clients.name))
+                    this.investmentNames = response.investmentNames;
+                    }
+                )
+            },
+            handleCalculate () {
+
+            },
+            handleCancel () {
+
+            },
+            handleSubmit () {
+
+            }
         },
         mounted() {
+            lib.func.fetchClients()
+                .then(response => {
+                    // console.log('here are the things')
+                    // console.log(Array.keys(response.clients.name))
+                    // console.log(Object.keys(response.clients.name))
+                    this.clients = response.clients;
+                    }
+                )
+        },
+        watch: {
+            //  disableSecondary () {
+            //     console.log('calling disable secondary')
+            //     obj = this.$store.state.client
+            //     return obj && Object.keys(obj).length === 0 && obj.constructor === Object
+            //     // return !this.$store.state.client;
+            // },
         }
     }
 </script>

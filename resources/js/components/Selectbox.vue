@@ -2,21 +2,29 @@
     <div :id=id>
         <select
             v-model="selected"
+            :disabled="disable"
         >
             <option :value="null" disabled>{{ placeholder }}</option>
-            <option v-for="item in values"
+            <option
+                v-for="item in values"
                 :value="item"
                 :key="item"
              >
-                {{item}}
+                <value
+                    :entry="item"
+                    :arraykey="arraykey"
+                >
+                </value>
             </option>
         </select>
     </div>
 </template>
 <script>
+    import Value from './Value';
     export default {
         name: 'select-box',
         components: {
+            Value
         },
         props: {
             id : {
@@ -30,6 +38,18 @@
             values: {
                 type: Array,
                 default: () => []
+            },
+            arraykey: {
+                type: String,
+                default: ''
+            },
+            statekey: {
+                type: String,
+                default: ''
+            },
+            disable: {
+                type: Boolean,
+                default: true
             }
         },
         data() {
@@ -38,8 +58,25 @@
             }
         },
         methods: {
+            updateGlobalState (key, value) {
+                this.$store.commit({
+                    type: 'state/update',
+                    item: key,
+                    value: value
+                })
+            }
         },
         mounted() {
+        },
+        computed: {
+        },
+        watch: {
+            selected : function (value) {
+                if (this.selected) {
+                    this.updateGlobalState(this.statekey, this.selected);
+                    this.$emit(this.statekey + 'selected');
+                }
+            }
         }
     }
 </script>

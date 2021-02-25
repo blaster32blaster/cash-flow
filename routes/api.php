@@ -18,4 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('clients', App\Http\Controllers\Api\ClientsController::class);
+Route::resource('clients', App\Http\Controllers\Api\ClientsController::class)
+    ->only('index');
+
+Route::resource('investment-types', App\Http\Controllers\Api\InvestmentTypesController::class)
+    ->only('show');
+
+Route::resource('investment-names', App\Http\Controllers\Api\InvestmentNamesController::class)
+    ->only('show');

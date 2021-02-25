@@ -27,7 +27,9 @@ Vue.component('dashboard', require('./components/Dashboard.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import store from './store';
 
 const app = new Vue({
     el: '#app',
+    store
 });

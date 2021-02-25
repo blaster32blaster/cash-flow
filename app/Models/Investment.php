@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Investment extends Model
 {
@@ -46,4 +47,14 @@ class Investment extends Model
     protected $guarded = [
 
     ];
+
+    /**
+     * an investments fund
+     *
+     * @return HasMany
+     */
+    public function fund() : HasOne
+    {
+        return $this->HasOne(Fund::class,'id', 'fund_id');
+    }
 }
