@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             FundSeeder::class,
             InvestmentSeeder::class,
+            CashFlowSeeder::class
         ]);
     }
 }

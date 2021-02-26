@@ -37,6 +37,9 @@
             }
         },
         methods: {
+            /**
+             * handle click events
+             */
             handleClick () {
                 this.$emit(this.type, this.buttonid);
             }

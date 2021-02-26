@@ -6,9 +6,9 @@
         >
             <option :value="null" disabled>{{ placeholder }}</option>
             <option
-                v-for="item in values"
+                v-for="item in myFilter(values)"
                 :value="item"
-                :key="item"
+                :key="item[arraykey]"
              >
                 <value
                     :entry="item"
@@ -58,17 +58,21 @@
             }
         },
         methods: {
+            /**
+             * update the global state
+             */
             updateGlobalState (key, value) {
                 this.$store.commit({
                     type: 'state/update',
                     item: key,
                     value: value
                 })
+            },
+            myFilter (values) {
+                const arrayUniqueByKey = [...new Map(values.map(item =>
+                    [item[this.arraykey], item])).values()];
+                return arrayUniqueByKey;
             }
-        },
-        mounted() {
-        },
-        computed: {
         },
         watch: {
             selected : function (value) {

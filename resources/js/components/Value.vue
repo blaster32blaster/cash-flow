@@ -10,19 +10,16 @@
         },
         props: {
             entry: {
-                // type: Array,
-                // default: () => []
             },
             arraykey: {
                 type: String,
                 default: ''
             }
         },
-        data() {
-            return {
-            }
-        },
         methods: {
+            /**
+             * get the item value
+             */
             getValue: function (item) {
                 if (this.arraykey !== '') {
                     let key = this.arraykey;
@@ -30,8 +27,6 @@
                 }
                 return item
             }
-        },
-        mounted() {
         },
     }
 </script>

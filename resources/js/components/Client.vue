@@ -14,6 +14,10 @@
             v-show="showDetail"
         >
             {{ client.name}}
+            <fund-list
+                :client="client.id"
+            >
+            </fund-list>
             <button
                 type="button"
                 class="cancel-detail-button"
@@ -26,9 +30,11 @@
 </template>
 <script>
     import cashflow from './CashFlowUpdate';
+    import FundList from './FundList.vue';
     export default {
         components: {
-            cashflow
+            cashflow,
+            FundList
         },
         props: {
             client: {
@@ -43,10 +49,16 @@
             }
         },
         methods: {
+            /**
+             * show the client details
+             */
             showClientDetails () {
                 this.showDetail = true;
                 this.$emit('clientdetails', this.client.id);
             },
+            /**
+             * cancel showing details
+             */
             handleCancelDetails () {
                 this.showDetail = false;
                 this.$emit('cancelclientdetails', this.client.id);

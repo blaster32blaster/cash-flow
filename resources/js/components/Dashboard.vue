@@ -68,17 +68,23 @@
             }
         },
         methods: {
+            /**
+             * handle switch to adding cash flow
+             */
             handleSwitch () {
                 this.cashflowadding = !this.cashflowadding;
             },
-
+            /**
+             * handle switch to client details
+             */
             handleShowClientDetails (client) {
                 this.showDetails = true;
                 this.selectedClient = client
             },
-
+            /**
+             * handle switching to stop showing details
+             */
             handleCancelClientDetails (client) {
-                console.log('cencel');
                 this.showDetails = false;
                 this.selectedClient = ''
             }

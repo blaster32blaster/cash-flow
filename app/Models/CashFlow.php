@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CashFlow extends Model
 {
@@ -44,4 +45,14 @@ class CashFlow extends Model
     protected $guarded = [
 
     ];
+
+    /**
+     * an investment
+     *
+     * @return BelongsTo
+     */
+    public function investment() : BelongsTo
+    {
+        return $this->belongsTo(Investment::class);
+    }
 }
